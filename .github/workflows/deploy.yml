@@ -1,32 +1,42 @@
 name: Deploy
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v3
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
-              with:
-                node-version: '18'
-            
-            - name: Install dependencies
-              working-directory: ./portfolio
-              run: npm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        working-directory: ./portfolio
+        run: npm install
 
-            - name: Build project
-              working-directory: ./portfolio
-              run: npm run build -- --base=/CrossyRoads/
+      - name: Build 
+        working-directory: ./portfolio
+        run: npm run build -- --base=/CrossyRoads/
 
-            - name: Deploy project
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                github_token: ${{ secrets.GITHUB_TOKEN }}
-                publish_dir: ./portfolio/dist
+      - name: Upload the build artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./portfolio/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v2
