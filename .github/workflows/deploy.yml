@@ -19,9 +19,11 @@ jobs:
                 cache: 'npm'
             
             - name: Install dependencies
+              working-directory: ./portfolio
               run: npm install
 
             - name: Build project
+              working-directory: ./portfolio
               run: npm run build -- --base=/CrossyRoads/
 
             - name: Deploy project
