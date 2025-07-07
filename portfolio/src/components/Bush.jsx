@@ -97,7 +97,7 @@ export function Bush(props) {
             const spherical = new THREE.Spherical(1 - Math.pow(Math.random(), 3), Math.PI * 2 * Math.random(), Math.PI * Math.random());
             const position = new THREE.Vector3().setFromSpherical(spherical);
             plane.lookAt(position);
-            plane.rotateX(Math.random() * 9999, Math.random() * 9999, Math.random() * 9999)
+            // plane.rotateX(Math.random() * 9999, Math.random() * 9999, Math.random() * 9999)
             plane.translate(position.x, position.y, position.z);
             const normal = position.clone().normalize();
             const normalArray = new Float32Array(12);

@@ -3,8 +3,9 @@ import { OrbitControls, Environment, Grid } from '@react-three/drei';
 import "./App.css";
 import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier';
 import { Vehicle } from './features/vehicle/Vehicle';
-import {Bushes } from "./components/Bushes"
-import Grass from './components/Grass';
+import { Bushes } from "./components/Bushes"
+import { Grass } from './components/Grass';
+import { Tree } from './components/Tree';
 
 
 export default function App() {
@@ -15,19 +16,20 @@ export default function App() {
       <Environment preset="sunset" />
       <Physics debug>
         <Bushes />
-        {/* <Vehicle />  */}
+        <Vehicle />
         <Grass />
+        <Tree position={[5, 0, 0]} />
         <RigidBody type='fixed' >
-          <mesh rotation={[-Math.PI / 2, 0, 0]}>
+          <mesh rotation={[-Math.PI / 2, 0, 0]} >
             <meshStandardMaterial color="#799F27" />
             <planeGeometry args={[1000, 1000]} />
           </mesh>
         </RigidBody>
       </Physics>
-      
+
 
       <OrbitControls />
-      
+
     </Canvas>
   )
 }
