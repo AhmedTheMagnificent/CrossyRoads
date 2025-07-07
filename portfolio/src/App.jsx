@@ -1,38 +1,30 @@
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Environment, Grid } from '@react-three/drei'
-import { Bush } from './components/Bush'
-import "./App.css"
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Environment, Grid } from '@react-three/drei';
+import "./App.css";
+import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier';
+import { Vehicle } from './features/vehicle/Vehicle';
+import {Bushes } from "./components/Bushes"
+import Grass from './components/Grass';
 
-function BushGrid(){
-  const bushes = [];
-  const gridSize = 20;
-  const spacing = 3;
-  const max = 1;
-  const min = 1;
-
-  for(let i = 0; i < gridSize; i++){
-    for(let k = 0; k < gridSize; k++){
-      const x = (i - gridSize / 2) * spacing;
-      const z = (k - gridSize / 2) * spacing;
-      bushes.push(<Bush key={`${i}-${k}`} position={[x, 0.5, z]} scale={Math.random() *(max - min + 1) + min} />)
-    }
-  }
-  return bushes;
-}
 
 export default function App() {
   return (
-    <Canvas camera={{ position: [3, 2, 3], fov: 50 }}>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[5, 5, 5]} intensity={1.5} />
+    <Canvas camera={{ position: [10, 10, 10], fov: 50 }}>
+      <ambientLight intensity={0.7} />
+      <directionalLight position={[10, 10, 10]} intensity={1.5} castShadow />
       <Environment preset="sunset" />
+      <Physics debug>
+        <Bushes />
+        {/* <Vehicle />  */}
+        <Grass />
+        <RigidBody type='fixed' >
+          <mesh rotation={[-Math.PI / 2, 0, 0]}>
+            <meshStandardMaterial color="#799F27" />
+            <planeGeometry args={[1000, 1000]} />
+          </mesh>
+        </RigidBody>
+      </Physics>
       
-      <BushGrid />
-
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <meshStandardMaterial color="#799F27" />
-        <planeGeometry args={[100, 100]} />
-      </mesh>
 
       <OrbitControls />
       

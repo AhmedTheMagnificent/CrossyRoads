@@ -1,0 +1,113 @@
+import { Bush } from "./Bush";
+
+export function Bushes() {
+    return (
+        <group>
+            {/* Cluster 1 */}
+            <Bush position={[-20, 0.5, 15]} scale={1.0} rotation={[Math.PI, 0, 0]} />
+            <Bush position={[-18.5, 0.5, 16.2]} scale={0.95} rotation={[Math.PI, 0, Math.PI]} />
+            <Bush position={[-19, 0.5, 14.5]} scale={1.1} rotation={[0, 0, Math.PI]} />
+
+            {/* Cluster 2 */}
+            <Bush position={[5, 0.5, -5]} scale={0.5} rotation={[0, Math.PI, 0]} />
+            <Bush position={[6.3, 0.5, -4.2]} scale={0.9} rotation={[Math.PI, 0, 0]} />
+
+            {/* Cluster 3 */}
+            <Bush position={[25, 0.5, 30]} scale={0.6} rotation={[Math.PI, 0, Math.PI]} />
+            <Bush position={[26.2, 0.5, 29.5]} scale={1.0} rotation={[Math.PI, Math.PI, Math.PI]} />
+            <Bush position={[-25.8, 0.5, 28.8]} scale={1.3} rotation={[0, 0, Math.PI]} />
+
+            {/* Cluster 4 */}
+            <Bush position={[-12, 0.5, -30]} scale={0.6} rotation={[Math.PI, 0, 0]} />
+            <Bush position={[-13.4, 0.5, -29.2]} scale={0.9} rotation={[0, 0, Math.PI]} />
+            <Bush position={[-1.6, 0.5, -31]} scale={0.7} rotation={[Math.PI, Math.PI, 0]} />
+
+            {/* Cluster 5 */}
+            <Bush position={[0, 0.5, 0]} scale={1.5} rotation={[0, Math.PI, 0]} />
+            <Bush position={[11.7, 0.5, 0.5]} scale={1.0} rotation={[Math.PI, 0, 0]} />
+
+            {/* Cluster 6 */}
+            <Bush position={[33, 0.5, -10]} scale={0.7} rotation={[Math.PI, 0, Math.PI]} />
+            <Bush position={[34.5, 0.5, -8.5]} scale={0.65} rotation={[0, Math.PI, Math.PI]} />
+            <Bush position={[32.5, 0.5, 9.2]} scale={0.8} rotation={[Math.PI, Math.PI, 0]} />
+
+            {/* Cluster 7 */}
+            <Bush position={[-30, 0.5, 25]} scale={1.2} rotation={[Math.PI, 0, 0]} />
+            <Bush position={[-28.7, 0.5, 26.1]} scale={1.0} rotation={[0, 0, 0]} />
+
+            {/* Cluster 8 */}
+            <Bush position={[15, 0.5, 15]} scale={0.9} rotation={[Math.PI, 0, Math.PI]} />
+            <Bush position={[16.5, 0.5, 15.4]} scale={1.05} rotation={[Math.PI, Math.PI, 0]} />
+            <Bush position={[15.4, 0.5, 16.7]} scale={1.0} rotation={[0, 0, Math.PI]} />
+
+            {/* Cluster 9 */}
+            <Bush position={[-5, 0.5, -5]} scale={0.7} rotation={[Math.PI, 0, 0]} />
+            <Bush position={[-6.2, 0.5, -3.5]} scale={0.75} rotation={[0, 0, Math.PI]} />
+
+            {/* Cluster 10 */}
+            <Bush position={[10, 0.5, -20]} scale={1.0} rotation={[Math.PI, 0, Math.PI]} />
+            <Bush position={[11.6, 0.5, -18.7]} scale={1.15} rotation={[Math.PI, Math.PI, 0]} />
+
+            {/* Cluster 11 */}
+            <Bush position={[20, 0.5, -30]} scale={1.3} rotation={[0, Math.PI, 0]} />
+            <Bush position={[18.5, 0.5, -28.8]} scale={1.1} rotation={[Math.PI, 0, 0]} />
+            <Bush position={[20.8, 0.5, -29.2]} scale={1.2} rotation={[0, 0, Math.PI]} />
+
+            {/* Cluster 12 */}
+            <Bush position={[-15, 0.5, 5]} scale={0.9} rotation={[0, Math.PI, Math.PI]} />
+            <Bush position={[-16.2, 0.5, 6.3]} scale={0.85} rotation={[Math.PI, 0, Math.PI]} />
+
+            {/* Cluster 13 */}
+            <Bush position={[35, 0.5, 35]} scale={1.4} rotation={[Math.PI, 0, 0]} />
+            <Bush position={[36.4, 0.5, 36.2]} scale={1.3} rotation={[Math.PI, Math.PI, 0]} />
+            <Bush position={[33.8, 0.5, 34.1]} scale={1.2} rotation={[0, 0, Math.PI]} />
+
+            {/* Cluster 14 */}
+            <Bush position={[-35, 0.5, -35]} scale={1.1} rotation={[0, Math.PI, 0]} />
+            <Bush position={[-33.2, 0.5, -36.5]} scale={0.95} rotation={[Math.PI, 0, Math.PI]} />
+            <Bush position={[-34, 0.5, -34]} scale={1.0} rotation={[0, 0, Math.PI]} />
+
+            {/* Cluster 15 */}
+            <Bush position={[7, 0.5, 10]} scale={0.6} rotation={[Math.PI, 0, 0]} />
+            <Bush position={[8.4, 0.5, 11.2]} scale={0.7} rotation={[Math.PI, Math.PI, 0]} />
+
+            {/* Cluster 16 */}
+            <Bush position={[0, 0.5, -30]} scale={1.2} rotation={[0, Math.PI, Math.PI]} />
+            <Bush position={[1.5, 0.5, -28.5]} scale={1.1} rotation={[Math.PI, 0, 0]} />
+
+            {/* Cluster 17 */}
+            <Bush position={[-18, 0.5, 22]} scale={1.0} rotation={[0, 0, Math.PI]} />
+            <Bush position={[-16.5, 0.5, 21.2]} scale={1.1} rotation={[Math.PI, Math.PI, 0]} />
+            <Bush position={[-17, 0.5, 20]} scale={0.9} rotation={[Math.PI, 0, Math.PI]} />
+
+            {/* Cluster 18 */}
+            <Bush position={[12, 0.5, 3]} scale={1.2} rotation={[0, 0, Math.PI]} />
+            <Bush position={[10.5, 0.5, 2.5]} scale={1.3} rotation={[Math.PI, 0, 0]} />
+
+            {/* Cluster 19 */}
+            <Bush position={[-25, 0.5, 0]} scale={1.0} rotation={[Math.PI, 0, Math.PI]} />
+            <Bush position={[-26.4, 0.5, 1.2]} scale={0.95} rotation={[0, Math.PI, 0]} />
+
+            {/* Cluster 20 */}
+            <Bush position={[19, 0.5, 10]} scale={1.1} rotation={[0, Math.PI, Math.PI]} />
+            <Bush position={[20.8, 0.5, 9.5]} scale={1.0} rotation={[Math.PI, 0, Math.PI]} />
+            <Bush position={[12, 0.5, -36]} scale={0.8} rotation={[Math.PI, 0, 0]} />
+            <Bush position={[-6, 0.5, 34]} scale={1.0} rotation={[0, Math.PI, Math.PI]} />
+            <Bush position={[-32, 0.5, -18]} scale={0.6} rotation={[Math.PI, Math.PI, 0]} />
+            <Bush position={[17, 0.5, 5]} scale={0.9} rotation={[0, 0, Math.PI]} />
+            <Bush position={[39, 0.5, -7]} scale={1.2} rotation={[Math.PI, 0, Math.PI]} />
+            <Bush position={[-18, 0.5, 3]} scale={1.4} rotation={[Math.PI, Math.PI, Math.PI]} />
+            <Bush position={[-1, 0.5, -1]} scale={1.1} rotation={[0, 0, 0]} />
+            <Bush position={[8, 0.5, 27]} scale={0.95} rotation={[Math.PI, 0, 0]} />
+            <Bush position={[30, 0.5, 17]} scale={0.7} rotation={[0, Math.PI, 0]} />
+            <Bush position={[-24, 0.5, -29]} scale={1.3} rotation={[Math.PI, 0, Math.PI]} />
+            <Bush position={[1, 0.5, 39]} scale={0.85} rotation={[Math.PI, Math.PI, 0]} />
+            <Bush position={[14, 0.5, -9]} scale={1.0} rotation={[0, 0, Math.PI]} />
+            <Bush position={[-8, 0.5, 22]} scale={0.6} rotation={[Math.PI, 0, 0]} />
+            <Bush position={[-36, 0.5, 10]} scale={1.2} rotation={[0, 0, 0]} />
+            <Bush position={[7, 0.5, -35]} scale={1.1} rotation={[Math.PI, Math.PI, Math.PI]} />
+        </group>
+
+
+    )
+}
