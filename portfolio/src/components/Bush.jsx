@@ -4,7 +4,7 @@ import { useMemo, useRef, useEffect } from 'react';
 import { useTexture, shaderMaterial } from '@react-three/drei';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-// The shader definition is correct and doesn't need changes.
+// --- THE FIX: The vertex shader MUST use the 'instanceMatrix' ---
 const BushMaterial = shaderMaterial(
     {
         uTime: 0,
@@ -23,12 +23,12 @@ const BushMaterial = shaderMaterial(
         uniform float uWindStrength;
 
         void main(){
-            vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+            // 1. Calculate world position using the instanceMatrix for correct wind
+            vec4 worldPosition = modelMatrix * instanceMatrix * vec4(position, 1.0);
 
-            // Use mod() to prevent precision loss over long periods
             float wrappedTime = mod(uTime, 10000.0);
 
-            // --- Wind Calculation ---
+            // --- Wind Calculation (This part was already correct) ---
             vec2 direction = normalize(vec2(-1.0, 1.0));
             vec2 noiseUv1 = worldPosition.xz * 0.06 + direction * (wrappedTime * 0.1);
             float noise1 = texture2D(uPerlin, noiseUv1).r - 0.5;
@@ -41,13 +41,16 @@ const BushMaterial = shaderMaterial(
             float heightFactor = max(0.0, position.y);
             vec3 newPosition = position + (displacement * uWindStrength * heightFactor);
 
-            vec4 modelViewPosition = modelViewMatrix * vec4(newPosition, 1.0);
+            // 2. Apply the instance's transformation to the final vertex position
+            vec4 modelViewPosition = modelViewMatrix * instanceMatrix * vec4(newPosition, 1.0);
             gl_Position = projectionMatrix * modelViewPosition;
-            vViewNormal = normalize(normalMatrix * normal);
+            
+            // 3. Transform normals correctly using the instance's rotation
+            vViewNormal = normalize(normalMatrix * mat3(instanceMatrix) * normal);
             vUv = uv;
         }
     `,
-    // --- Fragment Shader ---
+    // --- Fragment Shader (Unchanged) ---
     `
         varying vec2 vUv;
         varying vec3 vViewNormal;
@@ -70,18 +73,15 @@ export function Bush(props) {
     const [matcap, alphaMap, perlinTexture] = useTexture(['/matcap.jpg', '/alphaMap.jpg', '/perlin.png']);
     
     const materialRef = useRef();
+    const meshRef = useRef();
     
-    // --- THE FIX: Configure the noise texture to repeat ---
-    // This hook runs once after the component mounts and the texture is loaded.
     useEffect(() => {
         if (perlinTexture) {
-            // Set the wrapping mode to repeat on both axes.
             perlinTexture.wrapS = THREE.RepeatWrapping;
             perlinTexture.wrapT = THREE.RepeatWrapping;
-            // We need to tell Three.js to update the texture on the GPU
             perlinTexture.needsUpdate = true;
         }
-    }, [perlinTexture]); // Rerun this effect if the texture ever changes
+    }, [perlinTexture]);
 
     useFrame((state) => {
         if (materialRef.current) {
@@ -90,27 +90,26 @@ export function Bush(props) {
     });
 
     const bushGeometry = useMemo(() => {
-        const planeCount = 150;
+        const planeCount = 180;
         const geometries = [];
         for(let i = 0; i < planeCount; i++){
             const plane = new THREE.PlaneGeometry(1, 1);
             const spherical = new THREE.Spherical(1 - Math.pow(Math.random(), 3), Math.PI * 2 * Math.random(), Math.PI * Math.random());
             const position = new THREE.Vector3().setFromSpherical(spherical);
             plane.lookAt(position);
-            // plane.rotateX(Math.random() * 9999, Math.random() * 9999, Math.random() * 9999)
             plane.translate(position.x, position.y, position.z);
             const normal = position.clone().normalize();
             const normalArray = new Float32Array(12);
             for (let j = 0; j < 4; j++) {
                 const j3 = j * 3;
-                const position = new THREE.Vector3(
-                    plane.attributes.position.array[j3    ],
+                const iPosition = new THREE.Vector3(
+                    plane.attributes.position.array[j3],
                     plane.attributes.position.array[j3 + 1],
                     plane.attributes.position.array[j3 + 2],
                 );
 
-                const mixedNormal = position.lerp(normal, 0.4);
-                normalArray[j3    ] = mixedNormal.x;
+                const mixedNormal = iPosition.lerp(normal, 0.4);
+                normalArray[j3] = mixedNormal.x;
                 normalArray[j3 + 1] = mixedNormal.y;
                 normalArray[j3 + 2] = mixedNormal.z;
             }
@@ -120,14 +119,35 @@ export function Bush(props) {
         return mergeGeometries(geometries);
     }, []);
 
+    // This part of your code was already correct!
+    const dummy = useMemo(() => new THREE.Object3D(), []);
+    useEffect(() => {
+        if (!meshRef.current) return;
+
+        for (let i = 0; i < 500 ; i++) {
+            dummy.position.set(
+                (Math.random() - 0.5) * 100,
+                0,
+                (Math.random() - 0.5) * 100
+            );
+            const scale = 0.8 + Math.random() * 0.4;
+            dummy.scale.set(scale, scale, scale);
+            dummy.rotation.y = Math.random() * Math.PI;
+
+            dummy.updateMatrix();
+            meshRef.current.setMatrixAt(i, dummy.matrix);
+        }
+        meshRef.current.instanceMatrix.needsUpdate = true;
+    }, [dummy]); // dummy dependency is good practice here
+
     return (
-        <mesh geometry={bushGeometry} {...props}>
+        <instancedMesh ref={meshRef} args={[bushGeometry, null, 500]} {...props}>
             <bushMaterial 
                 ref={materialRef}
                 uMatcap={matcap} 
                 uAlphaMap={alphaMap} 
                 uPerlin={perlinTexture}
             />
-        </mesh>
+        </instancedMesh>
     );
 }

@@ -1,35 +1,24 @@
+import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment, Grid } from '@react-three/drei';
-import "./App.css";
-import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier';
-import { Vehicle } from './features/vehicle/Vehicle';
-import { Bushes } from "./components/Bushes"
-import { Grass } from './components/Grass';
-import { Tree } from './components/Tree';
+import { useEffect, useState } from 'react';
+import World from './components/World';
+import * as RAPIER from '@dimforge/rapier3d-compat';
 
 
 export default function App() {
+  const [rapierLoaded, setRapierLoaded] = useState(false);
+  useEffect(() => {
+        RAPIER.init().then(() => {
+            setRapierLoaded(true);
+        });
+    }, []);
+
   return (
-    <Canvas camera={{ position: [10, 10, 10], fov: 50 }}>
+    <Canvas shadows camera={{ fov: 25, near: 0.1, far: 1000, position: [0, 1, 6] }} >
       <ambientLight intensity={0.7} />
-      <directionalLight position={[10, 10, 10]} intensity={1.5} castShadow />
-      <Environment preset="sunset" />
-      <Physics debug>
-        <Bushes />
-        <Vehicle />
-        <Grass />
-        <Tree position={[5, 0, 0]} />
-        <RigidBody type='fixed' >
-          <mesh rotation={[-Math.PI / 2, 0, 0]} >
-            <meshStandardMaterial color="#799F27" />
-            <planeGeometry args={[1000, 1000]} />
-          </mesh>
-        </RigidBody>
-      </Physics>
-
-
+      <directionalLight position={[4, 4, 4]} />
+      {rapierLoaded ? <World /> : null}
       <OrbitControls />
-
     </Canvas>
-  )
+  );
 }
